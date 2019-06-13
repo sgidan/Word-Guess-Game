@@ -1,60 +1,82 @@
 
 var answers = [];
 var wrongLetter = [];
-var guessLeft = 9;
 var rightWord = [];
 var words = ["special", "excellent", "necessary", "female", "beautiful",
     "happy", "important", "hashtag", "independent", "complex", "queen",
     "realistic", "javascript", "coding", "bootcamp", "study", "extra", "random",
     "guess", "hangman", "crypt"];
 var randoWord;
-
+var maxGuesses;
+var lettersRemaining;
 // pick rando word from array -words
 
 function start() {
-    randoWord = words[Math.floor(Math.random() * words.length)];
+    rightWord = [];
+    wrongLetter = [];
+    underscore = [];
+    answers = [];
+    maxGuesses = 9;
+    
+    document.getElementById('rightGuess').textContent = maxGuesses;
+
+    randoWord = words[Math.floor(Math.random() * words.length)].split('');
+    lettersRemaining = randoWord.length;
+    console.log(randoWord)
 
     for (var i = 0; i < randoWord.length; i++) {
         //counts number of letters in random word & pushes that # of underscores
         answers.push("_");
     }
-    console.log(randoWord)
+
     document.getElementById('underscores').textContent = answers.join(' ');
- 
+
 }
 
 start();
-//answer array to set up how many letters in answer
+
 document.onkeyup = function (event) {
 
-    var userGuess = event.key; 
-    console.log(userGuess)
+    var userGuess = event.key;
+    console.log(userGuess);
 
 
-    //something happens when keys are pressed
+    var index;
+    var foundOne = false;
 
-var index = randoWord.indexOf(userGuess);
-    if (index > -1) {
+        console.log('lettersRemaing ' + lettersRemaining);
+    while ((index = randoWord.indexOf(userGuess)) > -1) {
         rightWord.push(userGuess);
         answers[index] = userGuess;
+        randoWord[index] = '';
         document.getElementById('underscores').textContent = answers.join(' ');
-        
+        index = randoWord.indexOf(userGuess);
+        lettersRemaining--;
+        foundOne = true;
+        console.log(rightWord)
 
     }
-    //variable - remaininng letter/guesses
-    //var remainingLetters = randoWord.length;
 
-    //while (remainingLetters > 0) {
-    //how to enter this in text??*********
+    if (foundOne === false) {
+        wrongLetter.push(userGuess);
+        document.getElementById("wrongGuess").textContent = wrongLetter.join(' ');
+        document.getElementById('rightGuess').textContent = maxGuesses;
+        console.log(wrongLetter);
+
+        if (--maxGuesses === 0) {
+            alert('loser');
+            start();
+        }
+        return;
+    }
+
+    if (lettersRemaining === 0) {
+        setTimeout(function () {
+            alert('you win');
+            start();
+        }, 100);
+        
+    
+    }
+
 }
-
-
-// var guess =
-
-//to input guess 
-// for (var j= 0; j< words.length; j++){
-//     if (word[j]===guess) {
-//         answer[j] = guess;
-//         remainingLetters--;
-//     }
-// }

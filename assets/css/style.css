@@ -5,3 +5,17 @@
 .row{
     margin-bottom: 20px;
 }
+#underscores{
+    text-align: center;
+    
+}
+
+h1{
+    text-align: center
+}
+#rightGuess{
+    text-align: center;
+}
+#wrongguess{
+    text-emphasis: center;
+}
